@@ -118,11 +118,17 @@ class App:
             logging.info(e)
 
         except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+            logging.info("ctrl + c interrupt")
             self.flag_t = 0
             self.epd.sleep()
             time.sleep(2)
             self.t.join()
+
+        finally:
+            logging.info("clearing screen + exiting")
+            self.epd.init(self.epd.FULL_UPDATE)
+            self.gt.GT_Init()
+            self.epd.Clear(0xFF)
             self.epd.Dev_exit()
             exit()
 
