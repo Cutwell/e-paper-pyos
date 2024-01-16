@@ -1,5 +1,5 @@
 import os
-from StringIO import StringIO
+from io import StringIO
 from PIL import Image,ImageDraw,ImageFont
 import urllib
 from TP_lib import gt1151
