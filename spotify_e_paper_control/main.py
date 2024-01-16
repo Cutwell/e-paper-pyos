@@ -34,9 +34,9 @@ class App:
         self.gt.GT_Init()
         self.epd.Clear(0xFF)
 
-        t = threading.Thread(target=self.pthread_irq)
-        t.setDaemon(True)
-        t.start()
+        self.t = threading.Thread(target=self.pthread_irq)
+        self.t.setDaemon(True)
+        self.t.start()
 
     def pthread_irq(self):
         print("pthread running")
