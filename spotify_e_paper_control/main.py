@@ -16,65 +16,107 @@ logging.basicConfig(level=logging.DEBUG)
 class Spotify:
     def __init__(self):
         logging.info("Spotify Control")
-
         self.is_playing = False
         self.state = None
-        self.access_token = self.getAccessToken()
-        self.jsonAuthBearerHeader = {"content-type": "application/json; charset=UTF-8",'Authorization':'Bearer {}'.format(self.access_token)}
+        self.access_token = None
+        self.access_token_lifetime = None
+        self.jsonAuthBearerHeader = {}
 
+        self.updateAccessToken()
         self.updatePlaybackState()
+
+    def refreshAccessToken(self):
+        if (
+            self.access_token_lifetime
+            and int(time.time()) >= self.access_token_lifetime
+        ):
+            self.updateAccessToken()
 
     def get(self, url: str, headers: dict):
         return requests.get(url, headers=headers).json()
-    
+
     def post(self, url: str, headers: dict, data: str):
         if data:
             return requests.post(url, headers=headers, data=data).json()
         else:
             return requests.post(url, headers=headers).json()
-    
+
     def put(self, url: str, headers: dict):
         return requests.put(url, headers=headers).json()
 
-    def getAccessToken(self):
+    def updateAccessToken(self):
         headers = {"content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
         data = {
             "grant_type": "client_credentials",
             "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
-            "client_secret": os.getenv("SPOTIFY_CLIENT_ID")
+            "client_secret": os.getenv("SPOTIFY_CLIENT_ID"),
         }
-        return self.post("https://accounts.spotify.com/api/token", headers, data)
+        response = self.post("https://accounts.spotify.com/api/token", headers, data)
+
+        if "access_token" in response:
+            self.access_token = response["access_token"]
+        if "expires_in" in response:
+            self.access_token_lifetime = int(time.time()) + response["expires_in"]
+
+        self.jsonAuthBearerHeader = {
+            "content-type": "application/json; charset=UTF-8",
+            "Authorization": "Bearer {}".format(self.access_token),
+        }
 
     def playpause(self):
+        self.refreshAccessToken()
+
         if "is_playing" in self.state and self.state["is_playing"]:
             # if playing, pause
-            response = self.put("https://api.spotify.com/v1/me/player/pause", self.jsonAuthBearerHeader)
+            response = self.put(
+                "https://api.spotify.com/v1/me/player/pause", self.jsonAuthBearerHeader
+            )
             if response.status_code == 200:
                 # if succeeded in flipping play/pause state, flip is_playing boolean
                 self.is_playing = False
         else:
             # if paused or doesn't exist, play
-            response = self.put("https://api.spotify.com/v1/me/player/play", self.jsonAuthBearerHeader)
+            response = self.put(
+                "https://api.spotify.com/v1/me/player/play", self.jsonAuthBearerHeader
+            )
             if response.status_code == 200:
                 # if succeeded in flipping play/pause state, flip is_playing boolean
                 self.is_playing = True
 
     def next_track(self):
-        self.post("https://api.spotify.com/v1/me/player/next", self.jsonAuthBearerHeader)
+        self.refreshAccessToken()
+
+        self.post(
+            "https://api.spotify.com/v1/me/player/next", self.jsonAuthBearerHeader
+        )
 
     def previous_track(self):
-        self.post("https://api.spotify.com/v1/me/player/previous", self.jsonAuthBearerHeader)
+        self.refreshAccessToken()
+
+        self.post(
+            "https://api.spotify.com/v1/me/player/previous", self.jsonAuthBearerHeader
+        )
 
     def getCurrentTrack(self):
-        return self.get("https://api.spotify.com/v1/me/player/currently-playing", self.jsonAuthBearerHeader)
+        self.refreshAccessToken()
+
+        return self.get(
+            "https://api.spotify.com/v1/me/player/currently-playing",
+            self.jsonAuthBearerHeader,
+        )
 
     def updatePlaybackState(self):
-        self.state = self.get("https://api.spotify.com/v1/me/player", self.jsonAuthBearerHeader)
+        self.refreshAccessToken()
+
+        self.state = self.get(
+            "https://api.spotify.com/v1/me/player", self.jsonAuthBearerHeader
+        )
 
         if "is_playing" in self.state:
             self.is_playing = self.state["is_playing"]
         else:
             self.is_playing = False
+
 
 class App:
     def __init__(self):
@@ -133,7 +175,12 @@ class App:
         """
 
         track = self.spotify.getCurrentTrack()
-        if "item" in track and "album" in track["item"] and "images" in track["item"]["album"] and len(track["item"]["album"]["images"]) > 0:
+        if (
+            "item" in track
+            and "album" in track["item"]
+            and "images" in track["item"]["album"]
+            and len(track["item"]["album"]["images"]) > 0
+        ):
             url = track["item"]["album"]["images"][0]["url"]
         else:
             # if no track thumbnail, return empty white background
@@ -180,7 +227,6 @@ class App:
             newimage.paste(
                 self.play_button, (31, 94), self.play_button.convert("RGBA")
             )  # place in middle of thumbnail
-            
 
         # export to BMP = strip alpha channel and convert to greyscale
         newimage = newimage.convert("RGB").convert("L")
