@@ -125,7 +125,7 @@ class App:
 
             logging.info("Drawing first view")
             self.epd.displayPartBaseImage(self.epd.getbuffer(self.image))
-            DrawImage = ImageDraw.Draw(self.image)
+            self.DrawImage = ImageDraw.Draw(self.image)
             self.epd.init(self.epd.PART_UPDATE)
 
             while 1:
