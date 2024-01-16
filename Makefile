@@ -19,15 +19,6 @@ install-pyenv: ## Install PyEnv and Python 3.9.18
 	@curl https://pyenv.run | bash && \
 	pyenv install 3.9.18
 
-install-python-deps: ## Activate Python 3.9.18 and install Numpy, Pillow, RPi.GPIO and Spidev
-	@pyenv local 3.9.18 && \
-	echo "Using `pyenv local`.." && \
-	sudo apt-get update && \
-	sudo apt-get install python3-pil && \
-	sudo apt-get install python3-numpy && \
-	sudo pip3 install RPi.GPIO && \
-	sudo pip3 install spidev
-
 install-poetry: ## Activate Python 3.9.18 and install Poetry
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
@@ -37,17 +28,25 @@ install-poetry-deps: ## Activate Python 3.9.18 and install Poetry-managed depend
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
 	poetry config virtualenvs.in-project true && \
+	echo "Installing pillow build dependencies.." && \
+	sudo apt-get update && \
+	sudo apt-get install libjpeg-dev -y && \
+	sudo apt-get install zlib1g-dev -y && \
+	sudo apt-get install libfreetype6-dev -y && \
+	sudo apt-get install liblcms1-dev -y && \
+	sudo apt-get install libopenjp2-7 -y && \
+	sudo apt-get install libtiff5 -y && \
+	echo "Initialising Poetry environment.." && \
 	poetry install
 
 install-all: ## Run all install steps in correct order
 	@make install-bcm2835 && \
 	make install-wiringpi && \
 	make install-pyenv && \
-	make install-python-deps && \
 	make install-poetry && \
 	make install-poetry-deps
 
 test-install: ## Run a test-suite to verify installation
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
-	echo "todo"
+	echo "TODO: write installation test"

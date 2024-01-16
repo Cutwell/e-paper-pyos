@@ -10,8 +10,12 @@ packages = [{include = "spotify_e_paper_control"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 requests = "^2.31.0"
-waveshare-etp = { git="https://github.com/waveshareteam/Touch_e-Paper_HAT.git", subdirectory="python" }
-
+pillow = "^10.2.0"
+rpi-gpio = "^0.7.1"
+gpiozero = "^2.0"
+smbus = "^1.1.post2"
+spidev = "^3.6"
+lgpio = "^0.0.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.4"
