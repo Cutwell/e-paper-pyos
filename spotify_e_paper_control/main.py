@@ -104,7 +104,7 @@ class App:
             self.image = Image.new(
                 "RGB", (122, 250), (255, 255, 255)
             )  # initialise with blank BG, then paste each new view as needed
-            self.thumbnail = self.bmp_from_jpeg_url(
+            self.thumbnail = self.get_spotify_thumbnail(
                 "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
             )
 
