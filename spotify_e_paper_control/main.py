@@ -62,6 +62,8 @@ class App:
 
         """
 
+        logging.info(f"loading image from {url}")
+
         # Load image from remote JPEG data, rotate 90 degrees and scale to 122x122 pixels
         return (
             Image.open(BytesIO(urllib.request.urlopen(url).read()))
@@ -73,6 +75,8 @@ class App:
         """
         Use PNG assets to create layered UI, then export to BMP for display.
         """
+
+        logging.info("Creating new UI")
 
         # create new view 122x250 with white background
         newimage = Image.new("RGBA", (122, 250), (255, 255, 255, 1))
@@ -107,6 +111,7 @@ class App:
             # build first layer
             self.layer_ui()
 
+            logging.info("Drawing first view")
             self.epd.displayPartBaseImage(self.epd.getbuffer(self.image))
             DrawImage = ImageDraw.Draw(self.image)
             self.epd.init(self.epd.PART_UPDATE)
