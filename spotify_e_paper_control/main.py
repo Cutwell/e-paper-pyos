@@ -23,8 +23,8 @@ class App:
         logging.info("loading UI assets")
 
         self.ui_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'spotify_e_paper_control/ui')
-        self.play_button = Image.open(os.path.join(self.ui_dir, 'play.png'))
-        self.pause_button = Image.open(os.path.join(self.ui_dir, 'pause.png'))
+        self.play_button = Image.open(os.path.join(self.ui_dir, 'play.png')).rotate(90)
+        self.pause_button = Image.open(os.path.join(self.ui_dir, 'pause.png')).rotate(90)
         self.previous_button = Image.open(os.path.join(self.ui_dir, 'previous.png')).rotate(90)
         self.next_button = Image.open(os.path.join(self.ui_dir, 'previous.png')).rotate(270) # reuse previous.png reversed 180 degrees as next button
 
@@ -102,7 +102,7 @@ class App:
         elif self.spotifyPlayState == 1:
             # state 1 == playing, so offer pause option
             newimage.paste(
-                self.pause_button, (31, 64)
+                self.pause_button, (31, 34)
             )   # place in middle of thumbnail
 
         # export to BMP = strip alpha channel and convert to greyscale
