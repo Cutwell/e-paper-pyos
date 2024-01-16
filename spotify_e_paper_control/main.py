@@ -24,8 +24,8 @@ class App:
         self.ui_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'spotify_e_paper_control/ui')
         self.play_button = Image.open(os.path.join(self.ui_dir, 'play.png'))
         self.pause_button = Image.open(os.path.join(self.ui_dir, 'pause.png'))
-        self.previous_button = Image.open(os.path.join(self.ui_dir, 'previous.png'))    
-        self.next_button = Image.open(os.path.join(self.ui_dir, 'previous.png')).rotate(180) # reuse previous.png reversed 180 degrees as next button
+        self.previous_button = Image.open(os.path.join(self.ui_dir, 'previous.png')).rotate(90)
+        self.next_button = Image.open(os.path.join(self.ui_dir, 'previous.png')).rotate(270) # reuse previous.png reversed 180 degrees as next button
 
         logging.info("initialising")
 
@@ -90,7 +90,7 @@ class App:
             self.previous_button, (31, 190)
         )
         newimage.paste(
-            self.next_button, (31, 60)
+            self.next_button, (31, 0)
         )
 
         # export to BMP = strip alpha channel and convert to greyscale
