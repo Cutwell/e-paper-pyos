@@ -66,15 +66,14 @@ class App:
         )
 
     def main(self):
-        # test
         try:
             image = Image.new("RGB", (122, 250), (255, 255, 255))
             newimage = self.bmp_from_jpeg_url(
                 "https://i.scdn.co/image/ab67616d00004851f56b861c3ca4dd44a3072c60"
             )
             image.paste(
-                newimage, (30, 0)
-            )  # position in center of screen (x, y is top-left corner)
+                newimage, (0, 61)
+            )  # position in center of screen (0,0 is top left when oriented like a rectangle with power at base)
 
             self.epd.displayPartBaseImage(self.epd.getbuffer(image))
             DrawImage = ImageDraw.Draw(image)
