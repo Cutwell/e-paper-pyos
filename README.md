@@ -9,9 +9,31 @@
 - Control Spotify playback from a touchscreen e-paper device.
 - Plug-and-play compatability with the [Waveshare 2.13" Touch E-paper Hat](https://www.waveshare.com/2.13inch-touch-e-paper-hat.htm) and [Raspberry Pi Zero 2W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/).
 
-[![Demo of the Read Me template command line app. It shows the user inputting their GitHub username and a repository name to generate a set of customised files useful for sharing GitHub projects.](demo.gif)](https://raw.githubusercontent.com/Cutwell/spotify-e-paper-control/main/demo.gif)
 
-## Install
+## Setup
+
+### Shortcut for connecting to RPI with SSH
+
+1. Create `.envrc` with `SSH_ADDRESS` environment variable (also store `SSH_PASSWD` for future reference).
+2. Add variables to terminal environment with `direnv allow`.
+3. Create an SSH session using `make ssh`
+
+### Installation
+
+_Requirements_:
+
+1. [PyEnv](https://github.com/pyenv/pyenv) and Python 3.9.18:
+
+```sh
+curl https://pyenv.run | bash
+pyenv install 3.9.18
+```
+
+_❗ Note: If you're having installation issues, [make sure your build environment is set up correctly](https://github.com/pyenv/pyenv/wiki#suggested-build-environment)._
+
+2. Setup your RPI using the [WaveShare documentation](https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT_Manual#Raspberry_Pi). Python module requirements are managed via Poetry:
+
+Install depencendies:
 
 ```sh
 poetry install
