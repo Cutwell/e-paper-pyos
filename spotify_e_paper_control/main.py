@@ -61,7 +61,7 @@ class App:
             Image.open(BytesIO(urllib.request.urlopen(url).read()))
             .convert("RGB")
             .convert("L")
-            .rotate(90)
+            .rotate(180)
             #.thumbnail((122, 122))
         )
 
