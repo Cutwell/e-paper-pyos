@@ -72,7 +72,7 @@ class App:
                 "https://i.scdn.co/image/ab67616d00004851f56b861c3ca4dd44a3072c60"
             )
             image.paste(
-                newimage, (0, 61)
+                newimage, (0, 64)
             )  # position in center of screen (0,0 is top left when oriented like a rectangle with power at base)
 
             self.epd.displayPartBaseImage(self.epd.getbuffer(image))
