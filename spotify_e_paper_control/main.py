@@ -62,11 +62,9 @@ class App:
 
         """
 
-        # Load image from remote JPEG data, then remove alpha channels, convert to greyscale (make bitmap), rotate 90 degrees and scale to 122x122 pixels
+        # Load image from remote JPEG data, rotate 90 degrees and scale to 122x122 pixels
         return (
             Image.open(BytesIO(urllib.request.urlopen(url).read()))
-            .convert("RGB")
-            .convert("L")
             .rotate(90)
             .resize((122, 122))
         )
