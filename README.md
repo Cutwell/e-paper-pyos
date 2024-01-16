@@ -15,7 +15,8 @@ Follow this guide to setup your Raspberry Pi Zero 2W and Waveshare 2.13" Touch E
 
 1. Follow [this](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app) Spotify guide to create an app.
 2. Create `.envrc`, using `.envrc.example.sh` as a template, and add your client ID/secret, etc.
-3. Access variables in your terminal environment with `direnv allow` (requires [direnv](https://direnv.net/)).
+3. Install [direnv](https://direnv.net/) with `make install-direnv`.
+3. Access variables in your terminal environment with `direnv allow`.
 
 _❗ Developer note: Try using `make ssh` as a shortcut to connect to your RPi._
 

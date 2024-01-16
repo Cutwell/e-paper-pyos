@@ -1,6 +1,9 @@
 ssh: ## Create SSH connection to RPi
 	@ssh pi@${SSH_ADDRESS}
 
+install-direnv: ## Install DirEnv terminal environment variable manager
+	@curl -sfL https://direnv.net/install.sh | bash
+
 install-bcm2835: ## Install bcm2835 dependency
 	@wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.71.tar.gz && \
 	tar zxvf bcm2835-1.71.tar.gz && \
@@ -39,7 +42,8 @@ install-poetry-deps: ## Activate Python 3.9.18 and install Poetry-managed depend
 	poetry install
 
 install-all: ## Run all install steps in correct order
-	@make install-bcm2835 && \
+	@install-direnv && \
+	make install-bcm2835 && \
 	make install-wiringpi && \
 	make install-pyenv && \
 	make install-poetry && \
