@@ -1,5 +1,5 @@
 import os
-from io import StringIO
+from io import BytesIO
 from PIL import Image,ImageDraw,ImageFont
 import urllib.request
 from TP_lib import gt1151
@@ -56,7 +56,7 @@ class App:
 
         img_ = urllib.request.urlopen(url)
         img_ = img_.read()
-        img_ = StringIO(img_)
+        img_ = BytesIO(img_)
         img_ = Image.open(img_)
         img_ = img_.tobitmap()
         
