@@ -49,3 +49,6 @@ test-install: ## Run a test-suite to verify installation
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
 	echo "TODO: write installation test"
+
+run: ## Run main app
+	@poetry run python3 spotify_e_paper_control/main.py

@@ -21,7 +21,7 @@ class App:
 
         logging.info("loading UI assets")
 
-        self.ui_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'ui')
+        self.ui_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'spotify_e_paper_control/ui')
         self.play_button = Image.open(os.path.join(self.ui_dir, 'play.png'))
         self.pause_button = Image.open(os.path.join(self.ui_dir, 'pause.png'))
         self.previous_button = Image.open(os.path.join(self.ui_dir, 'previous.png'))    
