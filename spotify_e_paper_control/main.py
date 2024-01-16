@@ -16,6 +16,7 @@ class App:
     def __init__(self):
         self.flag_t = 1
         self.i = self.j = self.k = self.ReFlag = self.SelfFlag = 0
+        self.spotifyPlayState = 0
 
         logging.info("epd2in13_V4 Touch Demo")
 
@@ -92,6 +93,17 @@ class App:
         newimage.paste(
             self.next_button, (31, 0)
         )
+
+        if self.spotifyPlayState == 10:
+            # state 0 == paused, so offer play option
+            newimage.paste(
+                self.play_button, (31, 64)
+            )   # place in middle of thumbnail
+        elif self.spotifyPlayState == 1:
+            # state 1 == playing, so offer pause option
+            newimage.paste(
+                self.pause_button, (31, 64)
+            )   # place in middle of thumbnail
 
         # export to BMP = strip alpha channel and convert to greyscale
         newimage = newimage.convert("RGB").convert("L")
