@@ -84,7 +84,7 @@ class App:
         # add thumbnail, UI, etc.
         # x=0, y=0 == top left, when device is oriented like a rectangle with power cord at base / bottom left
         newimage.paste(
-            newimage, (0, 64)
+            self.thumbnail, (0, 64)
         )
         newimage.paste(
             self.previous_button, (31, 190)
