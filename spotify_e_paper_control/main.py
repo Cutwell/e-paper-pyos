@@ -56,21 +56,24 @@ class App:
 
         """
 
-        img_ = urllib.request.urlopen(url)
-        img_ = img_.read()
-        img_ = BytesIO(img_)
-        img_ = Image.open(img_)
-        img_ = img_.convert("RGB").convert("L")
+        img = urllib.request.urlopen(url)
+        img = img.read()
+        img = BytesIO(img)
+        img = Image.open(img)
+        img = img.convert("RGB").convert("L")
 
         # Load image from remote JPEG data, then convert to bitmap and
-        return img_
+        return img
 
     def main(self):
         # test
         try:
-            image = self.bmp_from_jpeg_url(
+            image = Image.new("RGB", (122, 250), (255, 255, 255))
+            newimage = self.bmp_from_jpeg_url(
                 "https://i.scdn.co/image/ab67616d00004851f56b861c3ca4dd44a3072c60"
             )
+            image.paste(newimage, (0, 0))
+
             self.epd.displayPartBaseImage(self.epd.getbuffer(image))
             DrawImage = ImageDraw.Draw(image)
             self.epd.init(self.epd.PART_UPDATE)
