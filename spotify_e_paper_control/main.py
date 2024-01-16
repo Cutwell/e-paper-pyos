@@ -97,7 +97,7 @@ class App:
         if self.spotifyPlayState == 0:
             # state 0 == paused, so offer play option
             newimage.paste(
-                self.play_button, (31, 64)
+                self.play_button, (31, 34)
             )   # place in middle of thumbnail
         elif self.spotifyPlayState == 1:
             # state 1 == playing, so offer pause option
