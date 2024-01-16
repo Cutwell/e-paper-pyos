@@ -94,7 +94,7 @@ class App:
             self.next_button, (31, 0)
         )
 
-        if self.spotifyPlayState == 10:
+        if self.spotifyPlayState == 0:
             # state 0 == paused, so offer play option
             newimage.paste(
                 self.play_button, (31, 64)
