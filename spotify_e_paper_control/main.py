@@ -97,12 +97,12 @@ class App:
         if self.spotifyPlayState == 0:
             # state 0 == paused, so offer play option
             newimage.paste(
-                self.play_button, (31, 34)
+                self.play_button, (31, 94)
             )   # place in middle of thumbnail
         elif self.spotifyPlayState == 1:
             # state 1 == playing, so offer pause option
             newimage.paste(
-                self.pause_button, (31, 34)
+                self.pause_button, (31, 94)
             )   # place in middle of thumbnail
 
         # export to BMP = strip alpha channel and convert to greyscale
