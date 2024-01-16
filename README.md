@@ -4,7 +4,6 @@
 
 <!-- Find new badges at https://shields.io/badges -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PyPI](https://img.shields.io/pypi/v/readme-template-cli)](https://pypi.org/project/readme-template-cli/)
 
 - Control Spotify playback from a touchscreen e-paper device.
 - Plug-and-play compatability with the [Waveshare 2.13" Touch E-paper Hat](https://www.waveshare.com/2.13inch-touch-e-paper-hat.htm) and [Raspberry Pi Zero 2W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/).
@@ -12,32 +11,43 @@
 
 ## Setup
 
-### Shortcut for connecting to RPI with SSH
+Follow this guide to setup your Raspberry Pi Zero 2W and Waveshare 2.13" Touch E-paper Hat:
 
-1. Create `.envrc` with `SSH_ADDRESS` environment variable (also store `SSH_PASSWD` for future reference).
-2. Add variables to terminal environment with `direnv allow`.
-3. Create an SSH session using `make ssh`
+1. Follow [this](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app) Spotify guide to create an app.
+2. Create `.envrc`, using `.envrc.example.sh` as a template, and add your client ID/secret, etc.
+3. Access variables in your terminal environment with `direnv allow` (requires [direnv](https://direnv.net/)).
+
+_❗ Developer note: Try using `make ssh` as a shortcut to connect to your RPi._
 
 ### Installation
 
-_Requirements_:
+1. Setup your RPi using the [WaveShare documentation](https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT_Manual#Raspberry_Pi). Follow the guide until `Libraries Installation`, then follow the steps below:
 
-1. [PyEnv](https://github.com/pyenv/pyenv) and Python 3.9.18:
+2. Install dependencies and libraries..
+
+On a fresh Raspberry Pi:
 
 ```sh
-curl https://pyenv.run | bash
-pyenv install 3.9.18
+make install-all
 ```
 
-_❗ Note: If you're having installation issues, [make sure your build environment is set up correctly](https://github.com/pyenv/pyenv/wiki#suggested-build-environment)._
+Install dependencies selectively:
 
-2. Setup your RPI using the [WaveShare documentation](https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT_Manual#Raspberry_Pi). Python module requirements are managed via Poetry:
+|Dependency||
+|:---:|:---:|
+|[BCM2835](https://www.airspayce.com/mikem/bcm2835/) (RPi Broadcom chip) C library|`make install-bcm2835`|
+|[WiringPi](https://github.com/WiringPi/WiringPi) C library|`make install-wiringpi`|
+|[PyEnv](https://github.com/pyenv/pyenv) & [Python 3.9.18](https://www.python.org/downloads/release/python-3918/)|`make install-pyenv`|
+|[Numpy, Pillow, RPi.GPIO & Spidev Python modules](https://www.waveshare.com/wiki/2.13inch_Touch_e-Paper_HAT_Manual#Libraries_Installation)|`make install-python-deps`|
+|[Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)|`make install-poetry`|
+|Poetry-managed Python dependencies|`make install-poetry-deps`|
 
-Install depencendies:
+_❗ Note: If you're having issues installing PyEnv, [make sure your build environment is set up correctly](https://github.com/pyenv/pyenv/wiki#suggested-build-environment)._
+
+3. Test your installation was successful by running:
 
 ```sh
-poetry install
-poetry run python -m pip install RPi.GPIO spidev
+make test-install
 ```
 
 ## Contributing

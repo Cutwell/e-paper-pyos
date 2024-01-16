@@ -10,7 +10,6 @@ packages = [{include = "spotify_e_paper_control"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 requests = "^2.31.0"
-numpy = "^1.26.3"
 waveshare-etp = { git="https://github.com/waveshareteam/Touch_e-Paper_HAT.git", subdirectory="python" }
 
 
