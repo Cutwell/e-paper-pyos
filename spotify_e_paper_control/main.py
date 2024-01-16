@@ -61,15 +61,15 @@ class App:
             Image.open(BytesIO(urllib.request.urlopen(url).read()))
             .convert("RGB")
             .convert("L")
-            .rotate(180)
-            #.thumbnail((122, 122))
+            .rotate(270)
+            .resize((122, 122))
         )
 
     def main(self):
         try:
             image = Image.new("RGB", (122, 250), (255, 255, 255))
             newimage = self.bmp_from_jpeg_url(
-                "https://i.scdn.co/image/ab67616d00004851f56b861c3ca4dd44a3072c60"
+                "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
             )
             image.paste(
                 newimage, (0, 64)
