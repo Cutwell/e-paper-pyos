@@ -61,7 +61,7 @@ class App:
             Image.open(BytesIO(urllib.request.urlopen(url).read()))
             .convert("RGB")
             .convert("L")
-            #.rotate(270)
+            .rotate(90)
             .resize((122, 122))
         )
 
