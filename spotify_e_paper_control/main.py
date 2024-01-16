@@ -55,7 +55,7 @@ class App:
         """
         
         # Load image from remote JPEG data, then convert to bitmap and
-        return Image.open(StringIO(urllib.request.urlopen(url).read())).tobitmap()
+        return Image.frombytes(StringIO(urllib.request.urlopen(url).read())).tobitmap()
 
     def main(self):
         # test
