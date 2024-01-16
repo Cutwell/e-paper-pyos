@@ -56,8 +56,14 @@ class App:
 
         """
 
-        # Load image from remote JPEG data, then convert to bitmap and
-        return Image.open(BytesIO(urllib.request.urlopen(url).read())).convert("RGB").convert("L").rotate(-90)
+        # Load image from remote JPEG data, then remove alpha channels, convert to greyscale (make bitmap), rotate -90 degrees and scale to 122x122 pixels
+        return (
+            Image.open(BytesIO(urllib.request.urlopen(url).read()))
+            .convert("RGB")
+            .convert("L")
+            .rotate(-90)
+            .thumbnail((122, 122), Image.ANTIALIAS)
+        )
 
     def main(self):
         # test
@@ -66,7 +72,9 @@ class App:
             newimage = self.bmp_from_jpeg_url(
                 "https://i.scdn.co/image/ab67616d00004851f56b861c3ca4dd44a3072c60"
             )
-            image.paste(newimage, (0, 0))
+            image.paste(
+                newimage, (30, 0)
+            )  # position in center of screen (x, y is top-left corner)
 
             self.epd.displayPartBaseImage(self.epd.getbuffer(image))
             DrawImage = ImageDraw.Draw(image)
@@ -98,13 +106,17 @@ class App:
                     print("--- Self Refresh ---\r\n")
                 else:
                     self.k += 1
-                
+
                 # Read the touch input
                 self.gt.GT_Scan(self.GT_Dev, self.GT_Old)
-                if(self.GT_Old.X[0] == self.GT_Dev.X[0] and self.GT_Old.Y[0] == self.GT_Dev.Y[0] and self.GT_Old.S[0] == self.GT_Dev.S[0]):
+                if (
+                    self.GT_Old.X[0] == self.GT_Dev.X[0]
+                    and self.GT_Old.Y[0] == self.GT_Dev.Y[0]
+                    and self.GT_Old.S[0] == self.GT_Dev.S[0]
+                ):
                     continue
-                
-                if(self.GT_Dev.TouchpointFlag):
+
+                if self.GT_Dev.TouchpointFlag:
                     self.i += 1
                     self.GT_Dev.TouchpointFlag = 0
 
