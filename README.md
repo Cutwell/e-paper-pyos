@@ -49,6 +49,14 @@ _❗ Note: If you're having issues installing PyEnv, [make sure your build envir
 make test-install
 ```
 
+### Troubleshooting
+
+The following dependencies might be missing from your system:
+
+```sh
+sudo apt-get install liblcms1-dev -y
+```
+
 ## Contributing
 
 <!-- Remember to update the links in the `.github/CONTRIBUTING.md` file from `Cutwell/spotify-e-paper-control` to your own username and repository. -->
