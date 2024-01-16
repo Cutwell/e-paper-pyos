@@ -48,11 +48,16 @@ class Spotify:
     def playpause(self):
         if "is_playing" in self.state and self.state["is_playing"]:
             # if playing, pause
-            self.put("https://api.spotify.com/v1/me/player/pause", self.jsonAuthBearerHeader)
-            self.is_playing
+            response = self.put("https://api.spotify.com/v1/me/player/pause", self.jsonAuthBearerHeader)
+            if response.status_code == 200:
+                # if succeeded in flipping play/pause state, flip is_playing boolean
+                self.is_playing = False
         else:
             # if paused or doesn't exist, play
-            self.put("https://api.spotify.com/v1/me/player/play", self.jsonAuthBearerHeader)
+            response = self.put("https://api.spotify.com/v1/me/player/play", self.jsonAuthBearerHeader)
+            if response.status_code == 200:
+                # if succeeded in flipping play/pause state, flip is_playing boolean
+                self.is_playing = True
 
     def next_track(self):
         self.post("https://api.spotify.com/v1/me/player/next", self.jsonAuthBearerHeader)
