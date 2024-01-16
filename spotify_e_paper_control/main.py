@@ -1,7 +1,7 @@
 import os
 from io import StringIO
 from PIL import Image,ImageDraw,ImageFont
-import urllib
+import urllib.request
 from TP_lib import gt1151
 from TP_lib import epd2in13_V4
 import logging
@@ -55,7 +55,7 @@ class App:
         """
         
         # Load image from remote JPEG data, then convert to bitmap and
-        return Image.open(StringIO(urllib.urlopen(url).read())).tobitmap()
+        return Image.open(StringIO(urllib.request.urlopen(url).read())).tobitmap()
 
     def main(self):
         # test
