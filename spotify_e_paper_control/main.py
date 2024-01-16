@@ -40,9 +40,9 @@ class App:
         self.gt.GT_Init()
         self.epd.Clear(0xFF)
 
-        self.t = threading.Thread(target=self.pthread_irq)
-        self.t.setDaemon(True)
-        self.t.start()
+        #self.t = threading.Thread(target=self.pthread_irq)
+        #self.t.setDaemon(True)
+        #self.t.start()
 
     def pthread_irq(self):
         print("pthread running")
@@ -164,7 +164,7 @@ class App:
             self.flag_t = 0
             self.epd.sleep()
             time.sleep(2)
-            self.t.join()
+            #self.t.join()
 
         finally:
             logging.info("clearing screen + exiting")
