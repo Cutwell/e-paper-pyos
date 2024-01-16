@@ -56,14 +56,8 @@ class App:
 
         """
 
-        img = urllib.request.urlopen(url)
-        img = img.read()
-        img = BytesIO(img)
-        img = Image.open(img)
-        img = img.convert("RGB").convert("L")
-
         # Load image from remote JPEG data, then convert to bitmap and
-        return img
+        return Image.open(BytesIO(urllib.request.urlopen(url).read())).convert("RGB").convert("L").rotate(-90)
 
     def main(self):
         # test
