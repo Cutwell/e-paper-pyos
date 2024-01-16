@@ -85,24 +85,24 @@ class App:
         # add thumbnail, UI, etc.
         # x=0, y=0 == top left, when device is oriented like a rectangle with power cord at base / bottom left
         newimage.paste(
-            self.thumbnail, (0, 64)
+            self.thumbnail, (0, 64), self.thumbnail
         )
         newimage.paste(
-            self.previous_button, (31, 190)
+            self.previous_button, (31, 190), self.previous_button
         )
         newimage.paste(
-            self.next_button, (31, 0)
+            self.next_button, (31, 0), self.next_button
         )
 
         if self.spotifyPlayState == 0:
             # state 0 == paused, so offer play option
             newimage.paste(
-                self.play_button, (31, 94)
+                self.play_button, (31, 94), self.play_button
             )   # place in middle of thumbnail
         elif self.spotifyPlayState == 1:
             # state 1 == playing, so offer pause option
             newimage.paste(
-                self.pause_button, (31, 94)
+                self.pause_button, (31, 94), self.pause_button
             )   # place in middle of thumbnail
 
         # export to BMP = strip alpha channel and convert to greyscale
