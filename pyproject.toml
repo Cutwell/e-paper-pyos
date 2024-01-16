@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "spotify-e-paper-control"
+version = "0.1.0"
+description = "Remote control Spotify via touchscreen e-paper display"
+authors = ["Cutwell"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "spotify_e_paper_control"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.31.0"
+numpy = "^1.26.3"
+waveshare-etp = { git="https://github.com/waveshareteam/Touch_e-Paper_HAT.git", subdirectory="python" }
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+black = "^23.12.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
