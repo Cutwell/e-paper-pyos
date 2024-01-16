@@ -79,4 +79,5 @@ class App:
             exit()
 
 if __name__ == "__main__":
-    main()
+    app = App()
+    app.main()
