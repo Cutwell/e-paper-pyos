@@ -15,10 +15,9 @@ class App:
     def __init__(self):
         self.flag_t = 1
         
-        self.fontdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
-
-        self.font15 = ImageFont.truetype(os.path.join(self.fontdir, 'Font.ttc'), 15)
-        self.font24 = ImageFont.truetype(os.path.join(self.fontdir, 'Font.ttc'), 24)
+        #self.fontdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+        #self.font15 = ImageFont.truetype(os.path.join(self.fontdir, 'Font.ttc'), 15)
+        #self.font24 = ImageFont.truetype(os.path.join(self.fontdir, 'Font.ttc'), 24)
 
         logging.info("epd2in13_V4 Touch Demo")
     
