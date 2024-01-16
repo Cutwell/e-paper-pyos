@@ -58,7 +58,7 @@ class App:
         img_ = img_.read()
         img_ = BytesIO(img_)
         img_ = Image.open(img_)
-        img_ = img_.tobitmap()
+        img_ = img_.convert('RGB').convert('L')
         
         # Load image from remote JPEG data, then convert to bitmap and
         return img_
