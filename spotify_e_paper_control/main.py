@@ -121,7 +121,7 @@ class App:
                     self.GT_Dev.TouchpointFlag = 0
 
         except IOError as e:
-            logging.info(e)
+            logging.error(f"ERROR: {e}")
 
         except KeyboardInterrupt:
             logging.info("ctrl + c interrupt")
