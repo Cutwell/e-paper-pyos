@@ -62,7 +62,7 @@ class App:
             .convert("RGB")
             .convert("L")
             .rotate(90)
-            .thumbnail((122, 122), Image.ANTIALIAS)
+            #.thumbnail((122, 122))
         )
 
     def main(self):
