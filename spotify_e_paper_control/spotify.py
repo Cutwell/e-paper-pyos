@@ -1,8 +1,7 @@
 import logging
 import os
-import segno
 import spotipy
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from flask import Flask, request
 import threading
 import time
 
@@ -14,24 +13,27 @@ CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_ID")
 
 
-class RequestHandler(BaseHTTPRequestHandler):
-    first_request = None
-
-    def do_GET(self):
-        if not self.first_request:
-            self.first_request = self.path
-            print(f"Received first request for: {self.first_request}")
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b"Hello, world!")
-
-
 class Spotify:
 	def __init__(self):
 		self.is_playing = False
 		self.state = None
 
 		self.auth_manager = SpotifyOAuth(open_browser=False)
+
+		self.app = Flask(__name__)
+		self.first_request_url = None
+		self.app.add_url_rule('/', 'index', self.index)
+		
+
+	def callBackIndex(self):
+		if not self.first_request_url:
+			first_request_url = request.url
+			print(f"Received first request for: {first_request_url}")
+
+		return "You can close this page and return to your RPi device."
+
+	def callbackServer(self):
+		self.app.run(port=8000)
 
 	def getAuthURL(self):
 		url = self.auth_manager.get_authorize_url()
@@ -43,31 +45,14 @@ class Spotify:
 		server_thread.start()
 
 		# Wait for the first request
-		while not RequestHandler.first_request:
+		while not self.first_request_url:
 			time.sleep(1)
 
 		# Get the first request URL
-		first_request_url = RequestHandler.first_request
-		print(f"First request URL: {first_request_url}")
+		print(f"First request URL: {self.first_request_url}")
 
 		# Stop the server
 		server_thread.join()
-
-		# Return parsed auth response
-		return self.auth_manager.parse_auth_response_url(first_request_url)
-
-	def callbackServer(self):
-		server_address = ('', 8000)  # You can change the port if needed
-		httpd = ThreadingHTTPServer(server_address, RequestHandler)
-
-		print("Server started. Listening on port 8000.")
-		try:
-			httpd.serve_forever()
-		except KeyboardInterrupt:
-			pass
-
-		httpd.server_close()
-		print("Server stopped.")
 
 	def getAccessToken(self, access_code):
 		self.auth_manager.get_access_token(code=access_code)
