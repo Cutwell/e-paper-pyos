@@ -9,7 +9,10 @@ packages = [{include = "spotify_e_paper_control"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-requests = "^2.31.0"
+spotipy = "^2.23.0"
+segno = "^1.6.0"
+
+[tool.poetry.group.rpi.dependencies]
 pillow = "^10.2.0"
 rpi-gpio = "^0.7.1"
 gpiozero = "^2.0"

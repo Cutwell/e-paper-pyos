@@ -36,19 +36,10 @@ Scan through our [existing issues](https://github.com/Cutwell/spotify-e-paper-co
 - Using the command line:
   - [Fork the repo](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) so that you can make your changes without affecting the original project until you're ready to merge them.
 
-2. Install the app and dev dependencies:
-
-If using `poetry`:
+2. Install the app and dev dependencies (exclude `rpi` dependencies unless developing / testing on RPi hardware):
 
 ```sh
-poetry install --with dev
-```
-
-If using `pip`:
-
-```sh
-pip install -r requirements.txt
-pip install pytest black
+poetry install --without rpi
 ```
 
 3. Create a working branch and start with your changes!

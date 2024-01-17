@@ -1,127 +1,21 @@
-import os
-from io import BytesIO
-from PIL import Image, ImageDraw
-import urllib.request
-from TP_lib import gt1151
-from TP_lib import epd2in13_V4
 import logging
+import os
 import threading
 import time
-import requests
-
+import urllib.request
+from io import BytesIO
+import segno
+from PIL import Image, ImageDraw
+from spotify import Spotify
+from TP_lib import epd2in13_V4, gt1151
 
 logging.basicConfig(level=logging.DEBUG)
-
-
-class Spotify:
-    def __init__(self):
-        logging.info("Spotify Control")
-        self.is_playing = False
-        self.state = None
-        self.access_token = None
-        self.access_token_lifetime = None
-        self.jsonAuthBearerHeader = {}
-
-        self.updateAccessToken()
-        self.updatePlaybackState()
-
-    def refreshAccessToken(self):
-        if (
-            self.access_token_lifetime
-            and int(time.time()) >= self.access_token_lifetime
-        ):
-            self.updateAccessToken()
-
-    def get(self, url: str, headers: dict):
-        return requests.get(url, headers=headers).json()
-
-    def post(self, url: str, headers: dict, data: str):
-        if data:
-            return requests.post(url, headers=headers, data=data).json()
-        else:
-            return requests.post(url, headers=headers).json()
-
-    def put(self, url: str, headers: dict):
-        return requests.put(url, headers=headers).json()
-
-    def updateAccessToken(self):
-        headers = {"content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
-        data = {
-            "grant_type": "client_credentials",
-            "client_id": os.getenv("SPOTIFY_CLIENT_ID"),
-            "client_secret": os.getenv("SPOTIFY_CLIENT_ID"),
-        }
-        response = self.post("https://accounts.spotify.com/api/token", headers, data)
-
-        if "access_token" in response:
-            self.access_token = response["access_token"]
-        if "expires_in" in response:
-            self.access_token_lifetime = int(time.time()) + response["expires_in"]
-
-        self.jsonAuthBearerHeader = {
-            "content-type": "application/json; charset=UTF-8",
-            "Authorization": "Bearer {}".format(self.access_token),
-        }
-
-    def playpause(self):
-        self.refreshAccessToken()
-
-        if "is_playing" in self.state and self.state["is_playing"]:
-            # if playing, pause
-            response = self.put(
-                "https://api.spotify.com/v1/me/player/pause", self.jsonAuthBearerHeader
-            )
-            if response.status_code == 200:
-                # if succeeded in flipping play/pause state, flip is_playing boolean
-                self.is_playing = False
-        else:
-            # if paused or doesn't exist, play
-            response = self.put(
-                "https://api.spotify.com/v1/me/player/play", self.jsonAuthBearerHeader
-            )
-            if response.status_code == 200:
-                # if succeeded in flipping play/pause state, flip is_playing boolean
-                self.is_playing = True
-
-    def next_track(self):
-        self.refreshAccessToken()
-
-        self.post(
-            "https://api.spotify.com/v1/me/player/next", self.jsonAuthBearerHeader
-        )
-
-    def previous_track(self):
-        self.refreshAccessToken()
-
-        self.post(
-            "https://api.spotify.com/v1/me/player/previous", self.jsonAuthBearerHeader
-        )
-
-    def getCurrentTrack(self):
-        self.refreshAccessToken()
-
-        return self.get(
-            "https://api.spotify.com/v1/me/player/currently-playing",
-            self.jsonAuthBearerHeader,
-        )
-
-    def updatePlaybackState(self):
-        self.refreshAccessToken()
-
-        self.state = self.get(
-            "https://api.spotify.com/v1/me/player", self.jsonAuthBearerHeader
-        )
-
-        if "is_playing" in self.state:
-            self.is_playing = self.state["is_playing"]
-        else:
-            self.is_playing = False
 
 
 class App:
     def __init__(self):
         self.flag_t = 1
-        self.i = self.j = self.k = self.ReFlag = self.SelfFlag = 0
+        self.i = self.j = self.k = self.ReFlag = self.SelfFlag = self.Page = 0
         self.spotify = Spotify()
 
         logging.info("E-Paper Control")
@@ -168,6 +62,15 @@ class App:
             else:
                 self.GT_Dev.Touch = 0
         print("thread:exit")
+
+    def get_auth_qrcode(self):
+        url = self.spotify.getAuthURL()
+
+        out = BytesIO()
+        segno.make(url, error='h').save(out, scale=1, kind='png')
+        out.seek(0) # important to let Pillow load the PNG
+
+        return Image.open(out).convert('RGB').rotate(90).resize((122, 122), resample=Image.Resampling.LANCZOS)
 
     def get_spotify_thumbnail(self):
         """
@@ -289,7 +192,7 @@ class App:
                     self.i += 1
                     self.GT_Dev.TouchpointFlag = 0
 
-                    x, y = self.GT_Dev.X[0], self.GT_Dev.Y[0]
+                    _, y = self.GT_Dev.X[0], self.GT_Dev.Y[0]
 
                     if self.ReFlag == 0:
                         if y <= 64:

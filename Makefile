@@ -27,7 +27,7 @@ install-poetry: ## Activate Python 3.9.18 and install Poetry
 	echo "Using `pyenv local`.." && \
 	curl -sSL https://install.python-poetry.org | python3 -
 
-install-poetry-deps: ## Activate Python 3.9.18 and install Poetry-managed dependencies
+poetry-install-rpi: ## Activate Python 3.9.18 and install Poetry-managed dependencies for RPi usage
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
 	poetry config virtualenvs.in-project true && \
@@ -39,7 +39,17 @@ install-poetry-deps: ## Activate Python 3.9.18 and install Poetry-managed depend
 	sudo apt-get install libopenjp2-7 -y && \
 	sudo apt-get install libtiff5 -y && \
 	echo "Initialising Poetry environment.." && \
-	poetry install
+	poetry install --with rpi
+
+poetry-install-local-dev: ## Activate Python 3.9.18 and install code development dependencies for locla PC development (not on RPi)
+	@pyenv local 3.9.18 && \
+	echo "Using `pyenv local`.." && \
+	poetry config virtualenvs.in-project true && \
+	echo "Initialising Poetry environment.." && \
+	poetry install --without rpi
+
+make poetry-install-all:
+	@make poetry-install-rpi
 
 install-all: ## Run all install steps in correct order
 	@install-direnv && \
@@ -47,7 +57,7 @@ install-all: ## Run all install steps in correct order
 	make install-wiringpi && \
 	make install-pyenv && \
 	make install-poetry && \
-	make install-poetry-deps
+	make poetry-install-all
 
 test-install: ## Run a test-suite to verify installation
 	@pyenv local 3.9.18 && \
