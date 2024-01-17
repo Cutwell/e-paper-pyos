@@ -22,10 +22,10 @@ class Spotify:
 
 		self.app = Flask(__name__)
 		self.first_request_url = None
-		self.app.add_url_rule('/', 'index', self.index)
+		self.app.add_url_rule('/', 'index', self.callBackRoute)
 		
 
-	def callBackIndex(self):
+	def callBackRoute(self):
 		if not self.first_request_url:
 			first_request_url = request.url
 			print(f"Received first request for: {first_request_url}")
