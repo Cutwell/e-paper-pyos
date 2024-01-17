@@ -27,8 +27,8 @@ class Spotify:
 
 	def callBackRoute(self):
 		if not self.first_request_url:
-			first_request_url = request.url
-			print(f"Received first request for: {first_request_url}")
+			self.first_request_url = request.url
+			print(f"Received first request for: {self.first_request_url}")
 
 		return "You can close this page and return to your RPi device."
 
