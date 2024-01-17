@@ -33,7 +33,7 @@ class Spotify:
 		return "You can close this page and return to your RPi device."
 
 	def callbackServer(self):
-		self.app.run(port=8000)
+		self.app.run(host="0.0.0.0", port=8000)
 
 	def getAuthURL(self):
 		url = self.auth_manager.get_authorize_url()
