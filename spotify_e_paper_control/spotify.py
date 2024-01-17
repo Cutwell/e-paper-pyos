@@ -21,14 +21,15 @@ class Spotify:
 		self.auth_manager = SpotifyOAuth(open_browser=False)
 
 		self.app = Flask(__name__)
-		self.first_request_url = None
+		self.callbackRecievedAccessCode = None
 		self.app.add_url_rule('/', 'index', self.callBackRoute)
 		
 
 	def callBackRoute(self):
-		if not self.first_request_url:
-			self.first_request_url = request.url
-			print(f"Received first request for: {self.first_request_url}")
+		access_code = request.args.get('code')
+		if access_code and not self.callbackRecievedAccessCode:
+			self.callbackRecievedAccessCode = access_code
+			logging.info("Received access code.")
 
 		return "You can close this page and return to your RPi device."
 
@@ -40,19 +41,15 @@ class Spotify:
 		return url
 	
 	def listenForAuthCallback(self):
-		# Start the server in a separate thread
 		server_thread = threading.Thread(target=self.callbackServer)
 		server_thread.start()
 
-		# Wait for the first request
-		while not self.first_request_url:
+		while not self.callbackRecievedAccessCode:
 			time.sleep(1)
 
-		# Get the first request URL
-		print(f"First request URL: {self.first_request_url}")
-
-		# Stop the server
 		server_thread.join()
+
+		return self.callbackRecievedAccessCode
 
 	def getAccessToken(self, access_code):
 		self.auth_manager.get_access_token(code=access_code)
