@@ -71,3 +71,7 @@ test-install: ## Run a test-suite to verify installation
 
 run: ## Run main app
 	@poetry run python3 spotify_e_paper_control/main.py
+
+generate-ssl-cert: ## Generate an OpenSSL certificate & key to enable HTTPS
+	@cd spotify_e_paper_control/ssl && \
+	openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365

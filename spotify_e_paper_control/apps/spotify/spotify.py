@@ -1,15 +1,17 @@
 import logging
 import os
+import threading
+import time
+import urllib.request
+from io import BytesIO
+
+import segno
 import spotipy
 from flask import Flask, request
 from gunicorn.app.base import BaseApplication
-import threading
-import time
+from OpenSSL import SSL
 from PIL import Image
-import urllib.request
-from io import BytesIO
 from spotipy.oauth2 import SpotifyOAuth
-import segno
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -44,6 +46,10 @@ class Spotify:
         self.app = Flask(__name__)
         self.callbackRecievedAccessCode = None
         self.app.add_url_rule('/', 'index', self.callBackRoute)
+        self.ssl_dir = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+            "spotify/ssl",
+        )
         
         logging.info("loading UI assets")
 
@@ -178,6 +184,9 @@ class Spotify:
         options = {
             'bind': '0.0.0.0:8000',
             'workers': 4,
+            'keyfile': os.path.join(self.ssl_dir, "key.pem"),
+            'certfile': os.path.join(self.ssl_dir, "cert.pem"),
+            'ssl_version': SSL.TLSv1_2,
         }
 
         gunicorn_app = FlaskApp(self.app, options)

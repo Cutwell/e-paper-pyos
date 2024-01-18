@@ -131,5 +131,16 @@ class App:
 
 
 if __name__ == "__main__":
-    app = App()
-    app.main()
+    #app = App()
+    #app.main()
+
+    logging.info("Testing Spotify()")
+    
+    # Minimal example workflow for getting auth token with headless/inputless device
+    spotify = Spotify()
+    url = spotify.getAuthURL()
+    # display url to user somehow - QR code?
+    print(url)
+    auth_response = spotify.listenForAuthCallback()
+    spotify.getAccessToken(auth_response)
+    spotify.initSpotifySession()
