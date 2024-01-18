@@ -49,7 +49,7 @@ class Spotify:
 
         self.ui_dir = os.path.join(
             os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-            "spotify_e_paper_control/apps/spotify/assets",
+            "spotify/assets",
         )
         self.play_button = Image.open(os.path.join(self.ui_dir, "play.png")).rotate(90)
         self.pause_button = Image.open(os.path.join(self.ui_dir, "pause.png")).rotate(
