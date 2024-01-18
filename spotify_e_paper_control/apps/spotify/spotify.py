@@ -48,14 +48,14 @@ class Spotify:
         self.app.add_url_rule('/', 'index', self.callBackRoute)
         self.ssl_dir = os.path.join(
             os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-            "spotify/ssl",
+            "ssl",
         )
         
         logging.info("loading UI assets")
 
         self.ui_dir = os.path.join(
             os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-            "spotify/assets",
+            "apps/spotify/assets",
         )
         self.play_button = Image.open(os.path.join(self.ui_dir, "play.png")).rotate(90)
         self.pause_button = Image.open(os.path.join(self.ui_dir, "pause.png")).rotate(
