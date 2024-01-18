@@ -12,7 +12,6 @@ python = "^3.9"
 spotipy = "^2.23.0"
 segno = "^1.6.0"
 flask = "^3.0.0"
-gunicorn = "^21.2.0"
 
 [tool.poetry.group.rpi.dependencies]
 pillow = "^10.2.0"

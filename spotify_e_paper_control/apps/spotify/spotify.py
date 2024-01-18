@@ -1,15 +1,11 @@
 import logging
 import os
-import threading
-import time
 import urllib.request
 from io import BytesIO
 
 import segno
 import spotipy
 from flask import Flask, request
-from gunicorn.app.base import BaseApplication
-from OpenSSL import SSL
 from PIL import Image
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -17,21 +13,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_ID")
-
-class FlaskApp(BaseApplication):
-    def __init__(self, app, options=None):
-        self.options = options or {}
-        self.application = app
-        super().__init__()
-
-    def load_config(self):
-        for key, value in self.options.items():
-            if key in self.cfg.settings and value is not None:
-                self.cfg.set(key.lower(), value)
-
-    def load(self):
-        return self.application
-
 
 class Spotify:
     def __init__(self):
@@ -179,19 +160,7 @@ class Spotify:
         return url
     
     def listenForAuthCallback(self):
-        # Run the app with Gunicorn from within the script
-        # Set the number of workers and bind address/port as needed
-        options = {
-            'bind': '0.0.0.0:8000',
-            'workers': 4,
-            'keyfile': os.path.join(self.ssl_dir, "key.pem"),
-            'certfile': os.path.join(self.ssl_dir, "cert.pem"),
-            'ssl_version': SSL.TLSv1_2,
-        }
-
-        gunicorn_app = FlaskApp(self.app, options)
-        gunicorn_app.run()
-
+        self.app.run(host='0.0.0.0', port=8000, ssl_context=(os.path.join(self.ssl_dir, "cert.pem"), os.path.join(self.ssl_dir, "key.pem")))
         return self.callbackRecievedAccessCode
 
     def getAccessToken(self, access_code):
