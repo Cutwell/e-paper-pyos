@@ -1,11 +1,12 @@
 <!-- Update this link with your own project logo -->
-# <img src="https://raw.githubusercontent.com/Cutwell/spotify-e-paper-control/main/logo.png" style="width:64px;padding-right:20px;margin-bottom:-8px;"> Spotify E-Paper Control
- Control Spotify playback on other devices using a touchscreen e-paper device.
+# <img src="https://raw.githubusercontent.com/Cutwell/e-paper-pyos/main/logo.png" style="width:64px;padding-right:20px;margin-bottom:-8px;"> E-Paper PyOS
+ Python-based operating system for touchscreen e-paper devices.
 
 <!-- Find new badges at https://shields.io/badges -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- Control Spotify playback from a touchscreen e-paper device.
+- A Python-based OS for e-paper applications.
+	- e.g.: Spotify playback control
 - Plug-and-play compatability with the [Waveshare 2.13" Touch E-paper Hat](https://www.waveshare.com/2.13inch-touch-e-paper-hat.htm) and [Raspberry Pi Zero 2W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/).
 
 
@@ -45,6 +46,8 @@ Install dependencies selectively:
 
 _❗ Note: If you're having issues installing PyEnv, [make sure your build environment is set up correctly](https://github.com/pyenv/pyenv/wiki#suggested-build-environment)._
 
+_❗ Note: Certain e-paper apps require you to login to services on your phone by scanning QR codes. Login tokens are then shared with the e-paper via callback to the devices `.local` presence on your local network. If your device defaults to HTTPS, you will need to generate an OpenSSL certificate for app servers, using `make generate-ssl-cert`._
+
 3. Test your installation was successful by running:
 
 ```sh
@@ -61,7 +64,7 @@ sudo apt-get install liblcms1-dev -y
 
 ## Contributing
 
-<!-- Remember to update the links in the `.github/CONTRIBUTING.md` file from `Cutwell/spotify-e-paper-control` to your own username and repository. -->
+<!-- Remember to update the links in the `.github/CONTRIBUTING.md` file from `Cutwell/e-paper-pyos` to your own username and repository. -->
 
 For information on how to set up your dev environment and contribute, see [here](.github/CONTRIBUTING.md).
 

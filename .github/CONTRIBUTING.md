@@ -20,11 +20,11 @@ We consider all sorts of contributions to our project, some of which don't even 
 
 #### Create a new issue
 
-If you spot a problem, [search if an issue already exists](https://github.com/Cutwell/spotify-e-paper-control/issues). If a related issue doesn't exist, you can open a new issue using a relevant [issue form](https://github.com/Cutwell/spotify-e-paper-control/issues/new).
+If you spot a problem, [search if an issue already exists](https://github.com/Cutwell/e-paper-pyos/issues). If a related issue doesn't exist, you can open a new issue using a relevant [issue form](https://github.com/Cutwell/e-paper-pyos/issues/new).
 
 #### Solve an issue
 
-Scan through our [existing issues](https://github.com/Cutwell/spotify-e-paper-control/issues) to find one that interests you. You can narrow down the search using `labels` as filters.
+Scan through our [existing issues](https://github.com/Cutwell/e-paper-pyos/issues) to find one that interests you. You can narrow down the search using `labels` as filters.
 
 ### Make Changes
 
@@ -81,4 +81,4 @@ Congratulations :tada::tada: :sparkles:.
 
 Once your PR is merged, your contributions will be publicly visible on the repository.
 
-Now that you are part of our community, check the [issues list](https://github.com/Cutwell/spotify-e-paper-control/issues) to see how else you can contribute.
+Now that you are part of our community, check the [issues list](https://github.com/Cutwell/e-paper-pyos/issues) to see how else you can contribute.

@@ -178,4 +178,4 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/direnv,python
-/spotify_e_paper_control/example.py
+/e_paper/example.py

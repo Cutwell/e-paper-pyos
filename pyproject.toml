@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "spotify-e-paper-control"
+name = "e-paper-pyos"
 version = "0.1.0"
-description = "Remote control Spotify via touchscreen e-paper display"
+description = "Python-based operating system for touchscreen e-paper devices."
 authors = ["Cutwell"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "spotify_e_paper_control"}]
+packages = [{include = "e_paper_pyos"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"

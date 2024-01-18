@@ -2,7 +2,7 @@ import logging
 import threading
 import time
 from PIL import Image, ImageDraw
-from spotify_e_paper_control.apps.spotify.spotify import Spotify
+from e_paper_pyos.apps.spotify.spotify import Spotify
 from TP_lib import epd2in13_V4, gt1151
 
 logging.basicConfig(level=logging.DEBUG)
