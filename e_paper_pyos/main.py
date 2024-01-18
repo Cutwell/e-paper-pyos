@@ -1,9 +1,12 @@
 import logging
+import os
 import threading
 import time
+
 from PIL import Image, ImageDraw
-from e_paper_pyos.apps.spotify.spotify import Spotify
 from TP_lib import epd2in13_V4, gt1151
+
+from e_paper_pyos.apps.spotify.spotify import Spotify
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -47,7 +50,7 @@ class App:
         Get next view from current app, and apply to e-paper image.
         """
 
-        newimage = self.spotify.draw() # call current app .draw() method
+        newimage = self.spotify.draw()  # call current app .draw() method
 
         # apply new view to image
         self.image.paste(newimage, (0, 0))
@@ -131,13 +134,18 @@ class App:
 
 
 if __name__ == "__main__":
-    #app = App()
-    #app.main()
+    # app = App()
+    # app.main()
 
     logging.info("Testing Spotify()")
-    
+
+    ssl_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+        "ssl",
+    )
+
     # Minimal example workflow for getting auth token with headless/inputless device
-    spotify = Spotify()
+    spotify = Spotify(ssl_dir)
     url = spotify.getAuthURL()
     # display url to user somehow - QR code?
     print(url)

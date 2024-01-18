@@ -14,8 +14,9 @@ logging.basicConfig(level=logging.DEBUG)
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_ID")
 
+
 class Spotify:
-    def __init__(self):
+    def __init__(self, ssl_dir):
         """
         Spotify e-paper app, for controlling playback (play/pause/skip/previous).
         """
@@ -26,17 +27,14 @@ class Spotify:
 
         self.app = Flask(__name__)
         self.callbackRecievedAccessCode = None
-        self.app.add_url_rule('/', 'index', self.callBackRoute)
-        self.ssl_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-            "ssl",
-        )
-        
+        self.app.add_url_rule("/", "index", self.callBackRoute)
+        self.ssl_dir = ssl_dir
+
         logging.info("loading UI assets")
 
         self.ui_dir = os.path.join(
             os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-            "apps/spotify/assets",
+            "spotify/assets",
         )
         self.play_button = Image.open(os.path.join(self.ui_dir, "play.png")).rotate(90)
         self.pause_button = Image.open(os.path.join(self.ui_dir, "pause.png")).rotate(
@@ -87,7 +85,7 @@ class Spotify:
         newimage = newimage.convert("RGB").convert("L")
 
         return newimage
-    
+
     def get_album_thumbnail(self):
         """
         Convert remote JPEG to BMP.
@@ -95,8 +93,8 @@ class Spotify:
 
         track = self.getCurrentTrack()
         if (
-            track and 
-            "item" in track
+            track
+            and "item" in track
             and "album" in track["item"]
             and "images" in track["item"]["album"]
             and len(track["item"]["album"]["images"]) > 0
@@ -114,7 +112,7 @@ class Spotify:
             .rotate(90)
             .resize((122, 122))
         )
-    
+
     def handleTap(self, x, y):
         """
         Handle touchscreen input, given (x, y) coordinates of tap, to update app state.
@@ -126,18 +124,23 @@ class Spotify:
             self.playpause()
         elif y <= 186:
             self.previous_track()
-    
+
     def get_auth_qrcode(self):
         url = self.spotify.getAuthURL()
 
         out = BytesIO()
-        segno.make(url, error='h').save(out, scale=1, kind='png')
-        out.seek(0) # important to let Pillow load the PNG
+        segno.make(url, error="h").save(out, scale=1, kind="png")
+        out.seek(0)  # important to let Pillow load the PNG
 
-        return Image.open(out).convert('RGB').rotate(90).resize((122, 122), resample=Image.Resampling.LANCZOS)
+        return (
+            Image.open(out)
+            .convert("RGB")
+            .rotate(90)
+            .resize((122, 122), resample=Image.Resampling.LANCZOS)
+        )
 
     def callBackRoute(self):
-        code_param = request.args.get('code')
+        code_param = request.args.get("code")
 
         if code_param:
             self.callbackRecievedAccessCode = code_param
@@ -150,17 +153,24 @@ class Spotify:
 
     def shutdownCallbackServer():
         # This function will stop the Flask app gracefully
-        func = request.environ.get('werkzeug.server.shutdown')
+        func = request.environ.get("werkzeug.server.shutdown")
         if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
+            raise RuntimeError("Not running with the Werkzeug Server")
         func()
 
     def getAuthURL(self):
         url = self.auth_manager.get_authorize_url()
         return url
-    
+
     def listenForAuthCallback(self):
-        self.app.run(host='0.0.0.0', port=8000, ssl_context=(os.path.join(self.ssl_dir, "cert.pem"), os.path.join(self.ssl_dir, "key.pem")))
+        self.app.run(
+            host="0.0.0.0",
+            port=8000,
+            ssl_context=(
+                os.path.join(self.ssl_dir, "cert.pem"),
+                os.path.join(self.ssl_dir, "key.pem"),
+            ),
+        )
         return self.callbackRecievedAccessCode
 
     def getAccessToken(self, access_code):
@@ -206,7 +216,7 @@ class Spotify:
 
 if __name__ == "__main__":
     logging.info("Testing Spotify()")
-    
+
     # Minimal example workflow for getting auth token with headless/inputless device
     spotify = Spotify()
     url = spotify.getAuthURL()
