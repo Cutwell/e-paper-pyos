@@ -27,6 +27,9 @@ install-poetry: ## Activate Python 3.9.18 and install Poetry
 	echo "Using `pyenv local`.." && \
 	curl -sSL https://install.python-poetry.org | python3 -
 
+install-rust: ## Install Rust (to build pyopensll dependency)
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 poetry-install-rpi: ## Activate Python 3.9.18 and install Poetry-managed dependencies for RPi usage
 	@pyenv local 3.9.18 && \
 	echo "Using `pyenv local`.." && \
@@ -38,6 +41,7 @@ poetry-install-rpi: ## Activate Python 3.9.18 and install Poetry-managed depende
 	sudo apt-get install libfreetype6-dev -y && \
 	sudo apt-get install libopenjp2-7 -y && \
 	sudo apt-get install libtiff5 -y && \
+	sudo apt-get install libssl-dev && \
 	echo "Initialising Poetry environment.." && \
 	poetry install --with rpi
 
@@ -57,6 +61,7 @@ install-all: ## Run all install steps in correct order
 	make install-wiringpi && \
 	make install-pyenv && \
 	make install-poetry && \
+	make install-rust && \
 	make poetry-install-all
 
 test-install: ## Run a test-suite to verify installation

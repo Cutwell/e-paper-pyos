@@ -38,6 +38,7 @@ Install dependencies selectively:
 |:---:|:---:|
 |[BCM2835](https://www.airspayce.com/mikem/bcm2835/) (RPi Broadcom chip) C library|`make install-bcm2835`|
 |[WiringPi](https://github.com/WiringPi/WiringPi) C library|`make install-wiringpi`|
+|[Rust](https://www.rust-lang.org/tools/install) (to install [PyOpenSSL](https://pypi.org/project/pyOpenSSL/))|`make install-rust`|
 |[PyEnv](https://github.com/pyenv/pyenv) & [Python 3.9.18](https://www.python.org/downloads/release/python-3918/)|`make install-pyenv`|
 |[Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)|`make install-poetry`|
 |Poetry-managed Python dependencies|`make install-poetry-deps`|
