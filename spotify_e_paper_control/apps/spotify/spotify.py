@@ -61,7 +61,7 @@ class Spotify:
         self.next_button = Image.open(os.path.join(self.ui_dir, "previous.png")).rotate(
             270
         )  # reuse previous.png reversed 180 degrees as next button
-        self.thumbnail = self.get_spotify_thumbnail()
+        self.thumbnail = self.get_album_thumbnail()
 
     def draw(self):
         """
@@ -73,7 +73,7 @@ class Spotify:
         # create new view 122x250 with white background
         newimage = Image.new("RGBA", (122, 250), (255, 255, 255, 1))
 
-        self.thumbnail = self.get_spotify_thumbnail()
+        self.thumbnail = self.get_album_thumbnail()
 
         # add thumbnail, UI, etc.
         # x=0, y=0 == top left, when device is oriented like a rectangle with power cord at base / bottom left
