@@ -108,6 +108,7 @@ class Spotify:
 
         track = self.getCurrentTrack()
         if (
+            track and 
             "item" in track
             and "album" in track["item"]
             and "images" in track["item"]["album"]
